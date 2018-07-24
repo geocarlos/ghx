@@ -1,0 +1,7 @@
+export const GET_USERS = 'GET_USERS';
+export const GET_DETAILS = 'GET_USER_DETAILS'
+export const GET_REPOS = 'GET_USER_REPOS';
+
+export const GET_USERS_FAILED = 'GET_USERS_FAILED';
+export const GET_DETAIL_FAILED = 'GET_USER_DETAIL_FAILED';
+export const GET_REPOS_FAILED = 'GET_USERS_REPOS_FAILED';
