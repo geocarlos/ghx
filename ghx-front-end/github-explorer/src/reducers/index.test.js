@@ -12,7 +12,7 @@ import {
 
 describe('fetch users', ()=>{
   it('should return the initial state', () =>{
-    expect(users(undefined, {})).toEqual({users: [], error: ''});
+    expect(users(undefined, {})).toEqual({users: [], nextPageLink: '', error: ''});
   })
 
   it('should return state with a new object', () =>{

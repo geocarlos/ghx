@@ -13,13 +13,16 @@ class App extends Component {
 
     return (
       <div className="App">
+        <h1 className='heading'>GitHub Explorer</h1>
+
         <Route exact path='/' render={()=>(
-          <Users />
-        )} />
-        <Route path='/users/:since' render={({match})=>(
+          <Users />)}
+        />
+
+        <Route exact path='/users/:since' render={({match})=>(
           <Users sinceParam={match.params.since} />
         )} />
-        <Route path='/:username' render={({match})=>(
+        <Route path='/user/:username' render={({match})=>(
           <UserDetails username={match.params.username} />
         )} />
       </div>

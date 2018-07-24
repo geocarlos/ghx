@@ -1,42 +1,80 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import UserList from '../components/UserList';
 import {connect} from 'react-redux';
 import {fetchUsers} from '../actions';
+import {Link} from 'react-router-dom';
+import './Users.css';
+import createHistory from "history/createBrowserHistory";
+
+const history = createHistory();
 
 class Users extends Component {
 
-  getUsers(sinceParam){
+  constructor() {
+    super();
+    this.state = {
+      nextPage: 0,
+      previous: []
+    }
+  }
+
+  getUsers(sinceParam) {
     this.props.dispatch(fetchUsers(`/api/users?since=${sinceParam}`));
   }
 
-  componentDidMount(){
-    let sinceParam = 0
-    if(this.props.sinceParam){
-      sinceParam = this.props.sinceParam;
+  componentDidMount() {
+    if (this.props.sinceParam) {
+      this.setState({nextPage: this.props.sinceParam});
     }
-    this.getUsers(sinceParam);
+    this._navigate(this.state.nextPage);
   }
 
-  render(){
+  _navigate(nextPage) {
+    this.setState({
+      previous: this.state.previous.concat([nextPage])
+    })
+
+    this.getUsers(nextPage);
+    history.push(`/users/${nextPage}`)
+  }
+
+  _goBack(page) {
+    history.goBack();
+    this.setState({
+      nextPage: this.state.previous.length - 1
+    })
+    this.setState((state) => {
+      state.previous.splice(state.previous.length - 1, 1);
+      return state.previous;
+    })
+    this.getUsers(this.state.previous[this.state.previous.length - 1]);
+  }
+
+  render() {
     const users = this.props.users.users;
+    const nextPage = this.props.nextPage.substring(this.props.nextPage.indexOf('=') + 1);
+
     return (
-      <div>
-        <h1>User List</h1>
-        <button>Previous</button>
-        <button onClick={()=>this.getUsers(users.length)}>Next</button>
-        <UserList
-          users={users}/>
-        <button>Previous</button>
-        <button>Next</button>
-      </div>
-    )
+      <div className='container'>
+        <div className='nav-button'>
+          <hr></hr>
+          <button className='btn btn-default' onClick={this._goBack.bind(this)}>Go Back</button>
+          <button className='btn btn-default' onClick={this._navigate.bind(this, nextPage)}>Next</button>
+          <hr></hr>
+        </div>
+        <UserList users={users}/>
+        <div className='nav-button'>
+          <hr></hr>
+          <button className='btn btn-default' onClick={this._goBack.bind(this)}>Go Back</button>
+          <button className='btn btn-default' onClick={this._navigate.bind(this, nextPage)}>Next</button>
+          <hr></hr>
+        </div>
+      </div>)
   }
 }
 
-function mapStateToProps({users}){
-  return {
-    users
-  }
+function mapStateToProps({users, nextPageLink}) {
+  return {users, nextPage: users.nextPageLink}
 }
 
 export default connect(mapStateToProps)(Users);

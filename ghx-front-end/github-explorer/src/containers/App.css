@@ -1,5 +1,7 @@
 .App {
-  text-align: center;
+  margin: auto;
+  max-width: 800px;
+  padding: 2em;
 }
 
 .App-logo {
@@ -22,7 +24,11 @@
   font-size: large;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.heading{
+  min-height: 3em;
+  border: solid;
+  border-radius: .2em;
+  border-width: thin;
+  padding: 2em;
+  background-color: #a9a9a957;
 }

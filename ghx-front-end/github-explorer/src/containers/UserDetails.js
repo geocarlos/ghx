@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {fetchUserDetails, getUserDetails, fetchRepos} from '../actions';
+import './UserDetails.css';
+import Repos from '../components/Repos';
 
 class UserDetails extends Component {
 
@@ -12,24 +14,42 @@ class UserDetails extends Component {
     } else{
       this.props.dispatch(fetchUserDetails(`/api/users/${this.props.username}/details`))
     }
+    this.props.dispatch(fetchRepos(`/api/users/${this.props.username}/repos`))
   }
 
   render(){
     const user = this.props.user.user;
-    return (<div>
-      <h2>{user.id} - {user.login}</h2>
-      <Link className='link' to='/'>User List</Link>
+    const repos = this.props.repos.repos;
+    return (
+      <div className='user-details'>
+        <h2>{user.id} - {user.login}</h2>
+        <div className='row'>
+          <div className='col-md'>
+            <a href={user.html_url || ''}>View Profile on GitHub</a>
+          </div>
+          <div>
+            <p>Created at {user.created_at}</p>
+            <Link className='link' to='/'>Back to User List</Link>
+          </div>
+        </div>
+        <div>
+          <hr></hr>
+          <h3>{user.login}'s Public Repos</h3>
+          <div>
+            <Repos repos={repos} />
+          </div>
+        </div>
+
     </div>)
   }
 }
 
-function mapStateToProps({user, users}){
+function mapStateToProps({user, users, repos}){
   return {
     user,
-    users
+    users,
+    repos
   }
 }
 
 export default connect(mapStateToProps)(UserDetails);
-
-/* Id, Login, Profile URL and the date of the login creation */
