@@ -13,7 +13,11 @@ class App extends Component {
 
     return (
       <div className="App">
-        <h1 className='heading'>GitHub Explorer</h1>
+        <div className='heading'>
+          <h2><img src={logo} alt='Logo' />GitHub Explorer</h2>
+          <p>List of users and repositories</p>
+        </div>
+
 
         <Route exact path='/' render={()=>(
           <Users />)}
