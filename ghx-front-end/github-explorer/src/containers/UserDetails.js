@@ -12,9 +12,9 @@ class UserDetails extends Component {
     if(user){
       this.props.dispatch(getUserDetails(user));
     } else{
-      this.props.dispatch(fetchUserDetails(`/api/users/${this.props.username}/details`))
+      this.props.dispatch(fetchUserDetails(`http://localhost:3000/api/users/${this.props.username}/details`))
     }
-    this.props.dispatch(fetchRepos(`/api/users/${this.props.username}/repos`))
+    this.props.dispatch(fetchRepos(`http://localhost:3000/api/users/${this.props.username}/repos`))
   }
 
   render(){

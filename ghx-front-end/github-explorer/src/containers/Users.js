@@ -19,7 +19,7 @@ class Users extends Component {
   }
 
   getUsers(sinceParam) {
-    this.props.dispatch(fetchUsers(`/api/users?since=${sinceParam}`));
+    this.props.dispatch(fetchUsers(`http://localhost:3000/api/users?since=${sinceParam}`));
   }
 
   componentDidMount() {
