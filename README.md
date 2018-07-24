@@ -1,6 +1,6 @@
 # GitHub Explorer
 
-## Challenged proposed by Shaw and Partners
+## Challenge proposed by Shaw and Partners
 
 [The Full Stack Version](https://shawandpartners.com/full-back-front-test/)
 
