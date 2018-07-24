@@ -43,8 +43,8 @@ export function fetchUserDetails(url){
   return (dispatch) => {
     fetch(url)
     .then(res => res.json())
-    .then(data => dispatch(getUsers(data)))
-    .catch(()=> dispatch({type: GET_DETAILS, payload: 'Error fetching user\'s detail.'}))
+    .then(data => dispatch(getUserDetails(data)))
+    .catch(()=> dispatch({type: GET_DETAIL_FAILED, payload: 'Error fetching user\'s detail.'}))
   }
 }
 
@@ -52,7 +52,7 @@ export function fetchRepos(url){
   return (dispatch) => {
     fetch(url)
     .then(res => res.json())
-    .then(data => dispatch(getUsers(data)))
+    .then(data => dispatch(getUserRepos(data)))
     .catch(()=> dispatch({type: GET_REPOS_FAILED,  payload: 'Error fetching user\'s repos.'}))
   }
 }

@@ -1,17 +1,13 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import Users from './Users';
-import UserDetails from '../components/UserDetails';
+import UserDetails from './UserDetails';
 import logo from '../logo.svg';
 import './App.css';
 import {connect} from 'react-redux';
 import {fetchUsers} from '../actions';
 
 class App extends Component {
-
-  componentDidMount(){
-    this.props.dispatch(fetchUsers('/api/users?since=0'));
-  }
 
   render() {
 
@@ -20,17 +16,14 @@ class App extends Component {
         <Route exact path='/' render={()=>(
           <Users />
         )} />
-        <Route path='/:username' render={()=>(
-          <UserDetails user={this.props.user.user} />
+        <Route path='/users/:since' render={({match})=>(
+          <Users sinceParam={match.params.since} />
+        )} />
+        <Route path='/:username' render={({match})=>(
+          <UserDetails username={match.params.username} />
         )} />
       </div>
     );
-  }
-}
-
-function mapStateToProps({user}){
-  return {
-    user: user
   }
 }
 

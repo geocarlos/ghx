@@ -1,23 +1,33 @@
 import React, { Component } from 'react';
 import UserList from '../components/UserList';
 import {connect} from 'react-redux';
-import {getUserDetails, getUserRepos} from '../actions';
+import {fetchUsers} from '../actions';
 
 class Users extends Component {
 
-  setUser(user){
-    this.props.dispatch(getUserDetails(user))
+  getUsers(sinceParam){
+    this.props.dispatch(fetchUsers(`/api/users?since=${sinceParam}`));
+  }
+
+  componentDidMount(){
+    let sinceParam = 0
+    if(this.props.sinceParam){
+      sinceParam = this.props.sinceParam;
+    }
+    this.getUsers(sinceParam);
   }
 
   render(){
-    const username = 'geocarlos';
+    const users = this.props.users.users;
     return (
       <div>
         <h1>User List</h1>
+        <button>Previous</button>
+        <button onClick={()=>this.getUsers(users.length)}>Next</button>
         <UserList
-          users={this.props.users.users}
-          user={this.props.user}
-          setUser={(user)=> this.setUser(user)}/>
+          users={users}/>
+        <button>Previous</button>
+        <button>Next</button>
       </div>
     )
   }
@@ -25,7 +35,7 @@ class Users extends Component {
 
 function mapStateToProps({users}){
   return {
-    users: users
+    users
   }
 }
 

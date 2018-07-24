@@ -11,7 +11,7 @@ export const users = (state = initialState, action) => {
       // console.log(action.payload)
       return {
         ...state,
-        users: state.users.concat(action.payload),
+        users: action.payload,
         error: ''
       }
     case GET_USERS_FAILED:

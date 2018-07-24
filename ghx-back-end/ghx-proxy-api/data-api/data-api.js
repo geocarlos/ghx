@@ -6,7 +6,9 @@ This endpoint must return a list of GitHub users and the link for the next page.
 module.exports.getUsers = (sinceParam) => {
   return fetch(`${baseUrl}?since=${sinceParam}`)
   .then(res => res.json())
-  .then(data => data)
+  .then(data => {
+    return {users: data, nextPageLink: `${baseUrl}?since=${data[data.length - 1].id}`};
+  })
   .catch(() => "Unable to fetch users.");
 }
 

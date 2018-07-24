@@ -12,11 +12,12 @@ const api = require('./data-api');
 
 describe('queries to GitHub API', ()=>{
   it('get a list of users from GitHub', (done)=> {
-    expect.assertions(2);
+    expect.assertions(3);
     api.getUsers(1)
     .then((data)=>{
-      expect(Array.isArray(data)).toEqual(true);
-      expect(data.length).toBeGreaterThan(0);
+      expect(Array.isArray(data.users)).toEqual(true);
+      expect(data.users.length).toBeGreaterThan(0);
+      expect(data.nextPageLink.includes(data.users[data.users.length - 1].id)).toBe(true);
       done();
     });
   })
