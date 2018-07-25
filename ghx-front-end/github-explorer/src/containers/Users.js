@@ -24,8 +24,10 @@ class Users extends Component {
   componentDidMount() {
     if (this.props.sinceParam) {
       this.setState({nextPage: this.props.sinceParam});
+      this._navigate(this.props.sinceParam);
+    } else {
+      this._navigate(this.state.nextPage);
     }
-    this._navigate(this.state.nextPage);
   }
 
   _navigate(nextPage) {
@@ -38,21 +40,36 @@ class Users extends Component {
   }
 
   _goBack(page) {
-    history.goBack();
+
+    const param = history.location.pathname.match(/\d+/);
+
     this.setState({
       nextPage: this.props.pages[this.props.pages.length - 1]
     })
 
-    this.props.dispatch(goBackPages())
+    if(this.props.pages.length < 1 && param > 30){
+      this.props.dispatch(trackPages(param - 30));
+    }
+    this.props.dispatch(goBackPages());
 
-    this.getUsers(this.props.pages[this.props.pages.length - 1]);
+    const whereToGo = this.props.pages[this.props.pages.length - 1] || ((param - 30) > 30 ? param - 30 : 0)
+
+    history.push(`/users/${whereToGo}`)
+
+    this.getUsers(whereToGo);
   }
 
   render() {
     const users = this.props.users.users;
-    const nextPage = this.props.nextPage.substring(this.props.nextPage.indexOf('=') + 1);
 
-    console.log(this.props.pages)
+    if(!this.props.nextPage){
+      console.log(this.props.users)
+      return (
+        <div className='container'>Sorry, there was an error getting user list...</div>
+      )
+    }
+
+    const nextPage = this.props.nextPage.substring(this.props.nextPage.indexOf('=') + 1);
 
     return (
       <div className='container'>
