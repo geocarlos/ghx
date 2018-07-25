@@ -5,3 +5,6 @@ export const GET_REPOS = 'GET_USER_REPOS';
 export const GET_USERS_FAILED = 'GET_USERS_FAILED';
 export const GET_DETAIL_FAILED = 'GET_USER_DETAIL_FAILED';
 export const GET_REPOS_FAILED = 'GET_USERS_REPOS_FAILED';
+
+export const TRACK_PAGES = 'TRACK_PAGES';
+export const GO_BACK_PAGES = 'GO_BACK_PAGES';

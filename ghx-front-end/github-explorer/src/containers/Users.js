@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import UserList from '../components/UserList';
 import {connect} from 'react-redux';
-import {fetchUsers} from '../actions';
+import {fetchUsers, trackPages, goBackPages} from '../actions';
 import {Link} from 'react-router-dom';
 import './Users.css';
 import createHistory from "history/createBrowserHistory";
@@ -13,8 +13,7 @@ class Users extends Component {
   constructor() {
     super();
     this.state = {
-      nextPage: 0,
-      previous: []
+      nextPage: 0
     }
   }
 
@@ -30,9 +29,9 @@ class Users extends Component {
   }
 
   _navigate(nextPage) {
-    this.setState({
-      previous: this.state.previous.concat([nextPage])
-    })
+
+    // Track pages to navigate back
+    this.props.dispatch(trackPages(nextPage))
 
     this.getUsers(nextPage);
     history.push(`/users/${nextPage}`)
@@ -41,18 +40,19 @@ class Users extends Component {
   _goBack(page) {
     history.goBack();
     this.setState({
-      nextPage: this.state.previous.length - 1
+      nextPage: this.props.pages[this.props.pages.length - 1]
     })
-    this.setState((state) => {
-      state.previous.splice(state.previous.length - 1, 1);
-      return state.previous;
-    })
-    this.getUsers(this.state.previous[this.state.previous.length - 1]);
+
+    this.props.dispatch(goBackPages())
+
+    this.getUsers(this.props.pages[this.props.pages.length - 1]);
   }
 
   render() {
     const users = this.props.users.users;
     const nextPage = this.props.nextPage.substring(this.props.nextPage.indexOf('=') + 1);
+
+    console.log(this.props.pages)
 
     return (
       <div className='container'>
@@ -73,8 +73,12 @@ class Users extends Component {
   }
 }
 
-function mapStateToProps({users, nextPageLink}) {
-  return {users, nextPage: users.nextPageLink}
+function mapStateToProps({users, nextPageLink, pages}) {
+  return {
+    users,
+    nextPage: users.nextPageLink,
+    pages: pages.pages
+  }
 }
 
 export default connect(mapStateToProps)(Users);

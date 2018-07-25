@@ -4,7 +4,9 @@ import {
   getUserRepos,
   fetchUsers,
   fetchUserDetails,
-  fetchRepos
+  fetchRepos,
+  trackPages,
+  goBackPages
 } from './index';
 
 import {
@@ -13,7 +15,9 @@ import {
   GET_REPOS,
   GET_USERS_FAILED,
   GET_DETAIL_FAILED,
-  GET_REPOS_FAILED
+  GET_REPOS_FAILED,
+  TRACK_PAGES,
+  GO_BACK_PAGES
 } from './types';
 
 describe('basic actions', ()=>{
@@ -27,5 +31,13 @@ describe('basic actions', ()=>{
 
   it('should return type GET_DETAILS and an object as payload', ()=>{
     expect(getUserDetails({name: 'john'})).toEqual({type: GET_DETAILS, payload: {name: 'john'}});
-  })
+  });
+
+  it('should return a page number', ()=>{
+    expect(trackPages(3)).toEqual({type: TRACK_PAGES, payload: 3});
+  });
+
+  it('should return a page number', ()=>{
+    expect(goBackPages([])).toEqual({type: GO_BACK_PAGES});
+  });
 })
