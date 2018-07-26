@@ -18,7 +18,7 @@ const UserList = ({ users }) => {
         <li key={user.id}>
           <div className='user-list-item row'>
             <div className='col-md'><h3>{user.id} - {user.login}</h3></div>
-            <div className='col-md'><Link to={`/user/${user.login}`}>View Details</Link></div>
+            <div className='col-md text-right'><Link to={`/user/${user.login}`}>View Details</Link></div>
           </div>
         </li>
       ))}
